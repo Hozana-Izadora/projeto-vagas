@@ -1,0 +1,9 @@
+CREATE TABLE `users` (
+  `id_user` int(11) NOT NULL,
+  `name_user` varchar(250) NOT NULL,
+  `cpf_user` int(15) NOT NULL,
+  `email_user` varchar(100) NOT NULL,
+  `senha` varchar(200) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
