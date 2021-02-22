@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -25,9 +26,21 @@ class UsersController extends AppController
 
     public function login()
     {
-        $users = $this->paginate($this->Users);
+        $user = $this->Users->newEmptyEntity();
 
-        $this->set(compact('users'));
+        if ($this->request->is('post')) {
+            $user = $this->request->getData();
+            $user = $this->Users->find()
+            ->where(['name_user' => $user['name_user'], 'senha' => $user['senha']]);           
+           
+                
+                $this->Flash->success(__('Logado com Sucesso!'));                   
+
+                return $this->redirect(['controller' => 'Jobs', 'action' => 'index']);
+     
+        }
+
+        $this->set(compact('user'));
     }
 
     /**
@@ -57,11 +70,11 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('Seu usuário foi salvo!.'));
+                $this->Flash->success(__('Seu usuário foi salvo!'));
 
-                return $this->redirect(['controller'=>'Jobs','action' => 'index']);
+                return $this->redirect(['controller' => 'Jobs', 'action' => 'index']);
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            $this->Flash->error(__('Seu usuário não foi salvo. Porfavor, tente novamente.'));
         }
         $this->set(compact('user'));
     }
